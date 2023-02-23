@@ -15,7 +15,7 @@ class SimpleCalculator:
     def mul(self, *args):
         if not all(isinstance(arg, Number) for arg in args):
             raise TypeError
-        elif not all(arg != 0 for arg in args):
+        elif any(arg == 0 for arg in args):
             raise ValueError
         return reduce(mul, args)
 
