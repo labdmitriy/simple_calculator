@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import pytest
+
 from simple_calculator.main import SimpleCalculator
 
 
@@ -40,3 +42,45 @@ def test_mul_many_numbers():
     calculator = SimpleCalculator()
     result = calculator.mul(*numbers)
     assert result == 362880
+
+
+def test_div_two_numbers_float():
+    calculator = SimpleCalculator()
+    result = calculator.div(13, 2)
+    assert result == 6.5
+
+
+def test_div_by_zero_returns_inf():
+    calculator = SimpleCalculator()
+    result = calculator.div(5, 0)
+    assert result == float('inf')
+
+
+def test_mul_by_zero_raises_exception():
+    calculator = SimpleCalculator()
+    with pytest.raises(ValueError):
+        calculator.mul(3, 0)
+
+
+def test_mul_empty_string():
+    calculator = SimpleCalculator()
+    with pytest.raises(TypeError):
+        calculator.mul(3, '')
+
+
+def test_mul_non_empty_string():
+    calculator = SimpleCalculator()
+    with pytest.raises(TypeError):
+        print(calculator.mul(3, 'a'))
+
+
+def test_mul_none_value():
+    calculator = SimpleCalculator()
+    with pytest.raises(TypeError):
+        calculator.mul(3, None)
+
+
+def test_mul_empty_list():
+    calculator = SimpleCalculator()
+    with pytest.raises(TypeError):
+        calculator.mul(3, None)

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from functools import reduce
+from numbers import Number
+from operator import mul
 
 
 class SimpleCalculator:
@@ -11,4 +13,14 @@ class SimpleCalculator:
         return a - b
 
     def mul(self, *args):
-        return reduce(lambda x, y: x * y, args)
+        if not all(isinstance(arg, Number) for arg in args):
+            raise TypeError
+        elif not all(arg != 0 for arg in args):
+            raise ValueError
+        return reduce(mul, args)
+
+    def div(self, a, b):
+        try:
+            return a / b
+        except ZeroDivisionError:
+            return float('inf')
