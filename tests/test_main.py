@@ -78,9 +78,3 @@ def test_mul_none_value():
     calculator = SimpleCalculator()
     with pytest.raises(TypeError):
         calculator.mul(3, None)
-
-
-def test_mul_empty_list():
-    calculator = SimpleCalculator()
-    with pytest.raises(TypeError):
-        calculator.mul(3, None)
