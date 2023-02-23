@@ -24,3 +24,20 @@ class SimpleCalculator:
             return a / b
         except ZeroDivisionError:
             return float('inf')
+
+    def avg(self, it, lt=None, ut=None):
+        count = 0
+        total = 0
+
+        for number in it:
+            if ut is not None and number > ut:
+                continue
+            if lt is not None and number < lt:
+                continue
+            count += 1
+            total += number
+
+        if count == 0:
+            return 0
+        else:
+            return total / count

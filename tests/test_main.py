@@ -78,3 +78,69 @@ def test_mul_none_value():
     calculator = SimpleCalculator()
     with pytest.raises(TypeError):
         calculator.mul(3, None)
+
+
+def test_avg_correct_average():
+    calculator = SimpleCalculator()
+    result = calculator.avg([2, 5, 12, 98])
+    assert result == 29.25
+
+
+def test_avg_removes_upper_outliers():
+    calculator = SimpleCalculator()
+    result = calculator.avg([2, 5, 12, 98], ut=90)
+    assert result == pytest.approx(6.333333)
+
+
+def test_avg_removes_lower_outliers():
+    calculator = SimpleCalculator()
+    result = calculator.avg([2, 5, 12, 98], lt=10)
+    assert result == 55
+
+
+def test_avg_upper_threshold_is_included():
+    calculator = SimpleCalculator()
+    result = calculator.avg([2, 5, 12, 98], ut=12)
+    assert result == pytest.approx(6.333333)
+
+
+def test_avg_lower_threshold_is_included():
+    calculator = SimpleCalculator()
+    result = calculator.avg([2, 5, 12, 98], lt=5)
+    assert result == pytest.approx(38.333333)
+
+
+def test_avg_empty_list():
+    calculator = SimpleCalculator()
+    result = calculator.avg([])
+    assert result == 0
+
+
+def test_avg_manages_empty_list_after_outlier_removal():
+    calculator = SimpleCalculator()
+    result = calculator.avg([12, 98], lt=15, ut=90)
+    assert result == 0
+
+
+def test_avg_manages_empty_list_before_outlier_removal():
+    calculator = SimpleCalculator()
+    result = calculator.avg([], lt=15, ut=90)
+    assert result == 0
+
+
+def test_avg_manages_zero_value_lower_outlier():
+    calculator = SimpleCalculator()
+    result = calculator.avg([-1, 0, 1], lt=0)
+    assert result == 0.5
+
+
+def test_avg_manages_zero_value_upper_outlier():
+    calculator = SimpleCalculator()
+    result = calculator.avg([-1, 0, 1], ut=0)
+    assert result == -0.5
+
+
+def test_avg_accepts_generators():
+    calculator = SimpleCalculator()
+    result = calculator.avg(i for i in [2, 5, 12, 98])
+    assert result == 29.25
